@@ -3,13 +3,15 @@
 This is my public repo for STATS 220.
 
 ## A little about me:
-- I am undertaking a degree in *Electrical Engineering/Mathematics & Statistics*.
-- I am taking STATS 220 because it is convinient this semester for my degree, and because it offers some interesting topics
-- 
+1. I am undertaking a degree in *Electrical Engineering/Mathematics & Statistics*.
+    * Favorite so far is Mathematics.
+2. I am taking STATS 220 because it is convinient this semester for my degree, and because it offers some interesting topics.
 
 ## Favorite courses so far from each
-* **Maths 260 (James Sneyd My goat)**
+* **Maths 260**
+    * Enjoyed James Sneyds teaching style and content was easy and fun, although I bombed the exam with only 2 hours of revision.
 * **STATS 210**
+    * Content was pretty fun, exam wasn't exactly easy but was still cool to take, was not a fan of no lectures in Summer School though.
 * **ELECTENG 291**
 
 My favorite websites right now are:
