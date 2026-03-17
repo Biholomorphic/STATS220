@@ -5,7 +5,7 @@ This is my public repo for STATS 220.
 ## A little about me:
 1. I am undertaking a degree in *Electrical Engineering/Mathematics & Statistics*.
     * Favorite so far is Mathematics.
-2. I am taking STATS 220 because it is convinient this semester for my degree, and because it offers some interesting topics.
+2. I am taking STATS 220 because it is convenient this semester for my degree, and because it offers some interesting topics.
 
 ## Favorite courses so far from each
 * **Maths 260**

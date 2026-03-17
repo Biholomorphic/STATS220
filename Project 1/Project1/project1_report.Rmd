@@ -1,0 +1,52 @@
+---
+title: "Creating images with R"
+subtitle: "Git meme using the 'Disaster Girl' template"
+author: "Marlo Thacker"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, message=FALSE, warning=FALSE, error=FALSE)
+```
+
+```{css}
+body {
+    font-family: 'JetBrains Mono Nerd Font Mono', monospace;
+    background-color: #EFD2B0;
+    color: #3d3d3d;
+    line-height: 1;
+}
+
+```
+
+## Project requirements
+
+
+## Inspo meme
+![Inspo](inspo.jpg)
+
+## My meme
+![My Meme](my_meme.jpg)
+
+## My animated meme 
+![My Animated Meme](my_animated_meme.gif)
+
+## Creativity
+I'm not ever really sure what to put in this type of section as I don't see this as particularly creative. However, put on the spot I would argue that this demonstrates creativity in a simple manner via coming up with ideas and learning how to implement them, I have come up with a related joke (albeit it isn't exactly original which I discovered after searching up similar ideas after I did this) and expanded upon the meme with ideas of fire and a (poorly implemented) explosion. I've learned and used several magick functions beyond `image_annotate()` and others supplied. Utilizing these tools and other programming knowledge I created a six part animation sequence with multiple frames per part in the midsection cases.
+
+## Learning reflection
+
+
+## Appendix
+
+<mark>Do not change, edit, or remove the `R` chunk included below.</mark> 
+
+If you are working within RStudio and within your Project1 RStudio project (check the top right-hand corner says "Project1"), then the code from the `meme.R` script will be displayed below.
+
+This code needs to be visible for your project to be marked appropriately, as some of the criteria are based on this code being submitted.
+
+
+```{r file='meme.R', eval=FALSE, echo=TRUE}
+
+```
+
