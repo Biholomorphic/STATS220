@@ -3,14 +3,14 @@ rm(list = ls(all.names = TRUE)); gc(); if (!is.null(dev.list())) dev.off()
 
 library(magick)
 
-memeBase <- image_read("https://upload.wikimedia.org/wikipedia/en/1/11/Disaster_Girl.jpg")
+memeBase <- image_read("Disaster_Girl.jpg")
 upperText = "Been working on main branch\n the whole time"; lowerText = "Who needs branches?"
 
 # ----- Part D: Static Meme ----------------------------------
 
-Meme <- memeBase |>
+Meme <- memeBase %>%
   
-  image_scale("250%") |>                                   # Scaling because text appears really blurry without it
+  image_scale("250%") %>%                                   # Scaling because text appears really blurry without it
   
   image_annotate(
     text = upperText,
@@ -20,7 +20,7 @@ Meme <- memeBase |>
     color = "white",
     strokecolor = "black",
     strokewidth = "1.5"                                    # Size of black outline for text
-  ) |>
+  ) %>%
   
   image_annotate(
     text = lowerText,
@@ -32,7 +32,7 @@ Meme <- memeBase |>
     strokewidth = "1.5"
   )
 
-Meme |> image_write("my_meme.jpg")
+Meme %>% image_write("my_meme.jpg")
 
 # ----- Part E: Animated Meme --------------------------------
 
@@ -43,7 +43,7 @@ Meme |> image_write("my_meme.jpg")
 # Part 5: Ideally it would be cool to have a fire png overlay over and rise over the image, idk if thats feasable rn though - turns out this was actually not too hard
 # Part 6: Big boom
 
-gifBase <- memeBase |> image_scale("250%")
+gifBase <- memeBase %>% image_scale("250%")
 framesPerSecond = 30
 
 # ---------- PART ONE ---------- 
@@ -55,7 +55,7 @@ staticImg <- gifBase
 alphaSteps <- toupper(sprintf("%02x", round(seq(0, 255, length.out = framesPerSecond))))
 
 upperTextFadeIn <- lapply(alphaSteps, function(a) {
-  gifBase |>
+  gifBase %>%
     image_annotate(
       text = upperText,
       gravity = "north",
@@ -70,7 +70,7 @@ upperTextFadeIn <- lapply(alphaSteps, function(a) {
 # ---------- PART THREE ---------
 
 lowerTextFadeIn <- lapply(alphaSteps, function(a) {
-  gifBase |>
+  gifBase %>%
     image_annotate(
       text = upperText,
       gravity = "north",
@@ -79,7 +79,7 @@ lowerTextFadeIn <- lapply(alphaSteps, function(a) {
       color = "white",
       strokecolor = "black",
       strokewidth = 1.5
-    ) |>
+    ) %>%
     image_annotate(
       text = lowerText,
       gravity = "south",
@@ -96,11 +96,11 @@ lowerTextFadeIn <- lapply(alphaSteps, function(a) {
 tintSteps <- seq(0, 40, length.out = framesPerSecond)
 
 orangeTintFadeIn <- lapply(tintSteps, function(o) {
-  gifBase |>
+  gifBase %>%
     image_colorize(
       opacity = o,                                         # controls tint strength this time
       color = "#FFA500"
-    ) |>
+    ) %>%
     image_annotate(
       text = upperText,
       gravity = "north",
@@ -109,7 +109,7 @@ orangeTintFadeIn <- lapply(tintSteps, function(o) {
       color = "white",
       strokecolor = "black",
       strokewidth = 1.5
-    ) |>
+    ) %>%
     image_annotate(
       text = lowerText,
       gravity = "south",
@@ -123,15 +123,15 @@ orangeTintFadeIn <- lapply(tintSteps, function(o) {
 
 # ---------- PART FIVE ----------
 
-fire <- image_read("Assets/Fire.png") |> image_scale(paste0(image_info(gifBase)$width, "x"))       # Scale to match width otherwise would look very silly
+fire <- image_read("Fire.png") %>% image_scale(paste0(image_info(gifBase)$width, "x"))       # Scale to match width otherwise would look very silly
 
 riseSteps <- seq(image_info(gifBase)$height, 200, length.out = (framesPerSecond + framesPerSecond/2))                # For shifting the frame up
 
 fireRiseUp <- lapply(riseSteps, function(yOffset) {
-  gifBase |>
-    image_colorize(opacity = 40, color = "#FFA500") |>
+  gifBase %>%
+    image_colorize(opacity = 40, color = "#FFA500") %>%
     
-    image_composite(fire, operator = "Screen", offset = paste0("+0+", round(yOffset))) |>
+    image_composite(fire, operator = "Screen", offset = paste0("+0+", round(yOffset))) %>%
     
     image_annotate(
       text = upperText, 
@@ -141,7 +141,7 @@ fireRiseUp <- lapply(riseSteps, function(yOffset) {
       color = "white", 
       strokecolor = "black", 
       strokewidth = 1.5
-    ) |>
+    ) %>%
       
     image_annotate(
         text = lowerText, 
@@ -156,14 +156,14 @@ fireRiseUp <- lapply(riseSteps, function(yOffset) {
 
 # ---------- PART SIX ----------
 
-explosion <- image_read("Assets/explosion.png")
+explosion <- image_read("explosion.png")
 
-houseExplosion <- gifBase |>
-  image_composite(explosion, operator = "Screen", offset = "-400-170") |>
+houseExplosion <- gifBase %>%
+  image_composite(explosion, operator = "Screen", offset = "-400-170") %>%
   
-  image_colorize(opacity = 40, color = "#FFA500") |>
+  image_colorize(opacity = 40, color = "#FFA500") %>%
   
-  image_composite(fire, operator = "Screen", offset = "+0+200") |>
+  image_composite(fire, operator = "Screen", offset = "+0+200") %>%
   
   image_annotate(
     text = upperText, 
@@ -173,7 +173,7 @@ houseExplosion <- gifBase |>
     color = "white", 
     strokecolor = "black", 
     strokewidth = 1.5
-  ) |>
+  ) %>%
   
   image_annotate(
     text = lowerText, 
@@ -197,11 +197,11 @@ frames <- c(
 )
 
 # Animate at 25fps
-animation <- frames |>
+animation <- frames %>%
   image_animate(fps = 25, loop = 0)
 
 # Save the thing
-animation |> image_write("my_animated_meme.gif")
+animation %>% image_write("my_animated_meme.gif")
 
 # Compile time for saving gif was ages so print done for my own convenience
 print("Done")
