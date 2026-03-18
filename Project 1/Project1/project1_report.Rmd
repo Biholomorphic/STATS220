@@ -49,6 +49,8 @@ img {
 
 ## Project requirements
 
+![](projectDirectory.png)
+
 <!-- I like to have very visual seperators in md so will have this between each section -->
 
 ## Inspo meme
