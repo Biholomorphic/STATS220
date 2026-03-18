@@ -14,33 +14,76 @@ body {
     font-family: 'JetBrains Mono Nerd Font Mono', monospace;
     background-color: #EFD2B0;
     color: #3d3d3d;
-    line-height: 1;
+    line-height: 1.4;
+    font-size: 11pt;
 }
 
+p {
+    margin-bottom: 1.5em;
+}
+
+h1 {
+    font-family: 'JetBrains Mono Nerd Font Mono', monospace;
+    text-align: center;
+    text-decoration: underline;
+}
+
+h2 {
+    font-family: 'JetBrains Mono Nerd Font Mono', monospace;
+    font-size: 16pt;
+    text-decoration: underline;
+}
+
+pre {
+    background-color: #edd9c2;
+    padding: 10px;
+    border: 4px solid #444;
+    border-radius: 10px;
+}
+
+img {
+    border: 4px solid #444;
+    border-radius: 10px;
+}
 ```
 
 ## Project requirements
 
 
 ## Inspo meme
-![Inspo](inspo.jpg)
+![](inspo.jpg)
+I think the two main elements of this are definitely the expression on the girls face, and the background. I think that the expression on the girls face (regardless of what actually happened in the real image) portrays a sense of smugness, as though she is in part responsible for the chaos in the  background.
 
 ## My meme
-![My Meme](my_meme.jpg)
+![](my_meme.jpg)
+For my static meme pretty much all I changed was the joke displayed on it. I simply changed the text on it to be a different joke, but I still wanted it to be within the same genre of joke. I put most of my effort into trying to be a technical and more creative on the gif rather than the meme since thats what I was more interested in.
+
 
 ## My animated meme 
-![My Animated Meme](my_animated_meme.gif)
+![](my_animated_meme.gif)
 
 ## Creativity
 
-I think that my project displays creativity through its multi-part animation sequence involving multiple differing possible styles of animation, rather than looping a static image with minor changes I chose to gradually control tints, fade ins, and image manipulation using values distributed across ranges and functional loops.
+I think that my project displays creativity through its multi-part animation sequence involving multiple differing possible styles of animation, rather than looping a static image with minor changes each time I chose to gradually control tints, fade ins, and image manipulation using values distributed across ranges and functional loops.
 
 Additionally, I believe that as a part of my gradual control approach I had to come up with ideas on how to control this as much of my code to my knowledge doesn't have built in functionality for the type of control I was going for, I knew I would likely have to control opacity as I have done that trick before elsewhere but the implementation took some time and thinking to get right.
 
-Moreover, during the creation of the gif, I sourced and composited two images over the original, using the `Screen` operator to blend them together. I also utilized a dynamic approach to controling the dimensions of the fire overlay such that it responds to the base image dimensions, meaning that *hopefully* it will adjust it's width to match the base layer.
+Moreover, during the creation of the gif, I sourced and composited two images over the original, using the `Screen` operator to blend them together. I also utilized a dynamic approach to controlling the dimensions of the fire overlay such that it responds to the base image dimensions, meaning that *hopefully* it will adjust it's width to match the base layer.
+
+Overall I think that my code demonstrates creativity both through the technical aspect of making my ideas come to fruition but also through my approach to deciding what I wanted to happen on the gif, and while I don't think it's exactly the funniest meme or joke I've made I believe that my technical implementation should fulfil the creativity facet of this project.
 
 ## Learning reflection
+<!--  
+I think the learning for this project was kind of situational, I doubt I could apply most of what I learned to another project without thinking about it for some time first, I'm happy with what I've made here but I don't feel like the learning has been reinforced yet.
 
+So far my eyes have been opened a little into how reproducible some of this stuff is, I don't think I ever really considered html as something that was this easy to create, style and embed text and images into, I had never really considered that something like R markdown would have this kind of capabilities.
+-->
+
+I think that the learning I've done for this project was very situational, I don't think that I learned with any particular depth about what I've used in this project. However, I do think that it served an important purpose for deep exposure into many of the functions and abilities of both R and the magick package, and I believe that it will definitely serve me well if I do anything in the future as I believe that all sorts of exposure help with some sorts greater than others but helping overall.
+
+Probably what I've found most interesting right now is definitely the pipeline in R markdown. I like how I can create HTML with it that uses css for some styling, something I would've liked would be some experience using an external css document and linking that in here instead but I understand the idea of streamlining the project idea to simplify it.
+
+Something I enjoyed was learning the specific technical implementations of how to kind of loop to create a set of images that differed opacity or position (when using the image_composite() function). 
 
 ## Appendix
 
