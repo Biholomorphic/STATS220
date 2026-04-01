@@ -1,6 +1,6 @@
 # STATS 220
 
-This is my public repo for STATS 220.
+This is my public repo for STATS 220. I will be using this to track my own work as I also use github for all my assignments across all classes, and also to fulfil project requirements and deliverables. I will try to make sure my in progress work and my project deliverables do not get confused together.
 
 ## A little about me:
 1. I am undertaking a degree in *Electrical Engineering/Mathematics & Statistics*.
