@@ -1,0 +1,217 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, error = FALSE)
+
+```
+
+```{css}
+:root {
+  --bg: #eef3ef;
+  --ink: #1f2421;
+  --muted: #4d5a52;
+  --accent: #b2452e;
+  --accent-2: #2d6a4f;
+  --card: #f8fbf8;
+  --border: #21322b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'JetBrains Mono Nerd Font Mono', monospace;
+  background:
+    radial-gradient(circle at 15% 7%, #dfeee4 0%, transparent 36%),
+    radial-gradient(circle at 85% 2%, #d7e8de 0%, transparent 30%),
+    var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 11.5pt;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 1.2rem 2.2rem 2.8rem;
+}
+
+p {
+  margin-bottom: 1.2em;
+  text-align: justify;
+  color: var(--muted);
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'JetBrains Mono Nerd Font Mono', monospace;
+  color: var(--ink);
+}
+
+h2 {
+  width: fit-content;
+  margin: 0 auto 1rem;
+  text-align: center;
+  text-decoration: none;
+  font-size: 2rem;
+  border-bottom: 4px solid var(--accent);
+  padding-bottom: 0.2rem;
+}
+
+
+h3 {
+  font-size: 1.2rem;
+  text-decoration: none;
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+  padding-left: 0.7rem;
+  border-left: 6px solid var(--accent-2);
+  background: linear-gradient(to right, #eef8f8, transparent);
+}
+
+h2::after,
+h3::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 4px;
+  margin-top: 0.5rem;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+pre {
+  background-color: var(--card);
+  padding: 10px;
+  border: 3px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.12);
+}
+
+.figure,
+.plotly,
+figure {
+  margin: 1.2rem auto;
+  text-align: center;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 3px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.12);
+  max-width: 92%;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+img:hover {
+  transform: translateY(-3px);
+  box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.16);
+}
+```
+
+## Data Collected via Energy Drink Observations
+
+This analysis is based on observations of energy drink presence collecected from the University of Auckland and Auckland University of Technology campuses. The data was collected from myself: Marlo Thacker (mtha970) and Johnathen Sewell (jsew317) over the course of several days. The data captures snapshots of individual brands observed at specific times and places.
+
+```{r data-import}
+library("tidyverse")
+
+logged_data <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRHaMrOqii2tFpTH9s4SEv7Wv1PNuF7fwck5SOM9F2pXzyNibgYcm4KyM9qoM3O0jDUcoFIKnN7K4gF/pub?output=csv")
+
+latest_data <- logged_data |>
+  rename(
+    timestamp = Timestamp,
+    campus = UoA.or.AUT.Campus.,
+    building_number = What.was.the.building.number.of.the.observation...Enter.answer.without.B..i.e...for.building.110N..don.t.use.B110N..use.110N..Link.to.map.for.convenience.,
+    building_name = What.was.the.building.name.of.the.observation...Use.capitals..Link.to.map.for.convenience.,
+    observation_date = What.was.the.date.of.the.observation.,
+    observation_time = What.was.the.time.of.the.observation.,
+    drink_brand = What.was.the.brand.of.the.drink.,
+    quantity_seen = Quantity.of.same.brand.seen.in.the.location...e.g...2.at.one.table.
+  )
+
+max_quantity <- max(latest_data$quantity_seen, na.rm = TRUE)
+min_quantity <- min(latest_data$quantity_seen, na.rm = TRUE)
+mean_quantity <- mean(latest_data$quantity_seen, na.rm = TRUE)
+median_quantity <- median(latest_data$quantity_seen, na.rm = TRUE)
+
+summary_stats <- tibble(
+  statistic = factor(c("Min", "Mean", "Median", "Max"), levels = c("Min", "Mean", "Median", "Max")),
+  value = c(min_quantity, mean_quantity, median_quantity, max_quantity)
+)
+```
+
+### Summary of Observations
+
+Across `r nrow(latest_data)` observations, we documented energy drink instances ranging from a minimum of `r min_quantity` to a maximum of `r max_quantity` drinks per location snapshot. The mean observed quantity was `r round(mean_quantity, 2)` drinks, with a median of `r round(median_quantity, 2)`, indicating that while most observations show relatively low quantities, some locations captured clusters of drinks.
+
+```{r summary-chart}
+ggplot(summary_stats, aes(x = statistic, y = value, fill = statistic)) +
+  geom_col(width = 0.65, show.legend = FALSE) +
+  geom_text(aes(label = round(value, 2)), vjust = -0.5, size = 4) +
+  scale_fill_manual(values = c("Min" = "#84a98c", "Mean" = "#52796f", "Median" = "#354f52", "Max" = "#b2452e")) +
+  labs(
+    title = "Summary Statistics of Recorded Quantities",
+    x = "Statistic",
+    y = "Quantity"
+  ) +
+  theme_minimal()
+```
+
+### Brand Analysis
+
+The following chart shows the total quantity of each brand observed across all location snapshots:
+
+```{r brand-chart}
+brand_summary <- latest_data |>
+  group_by(drink_brand) |>
+  summarise(total_quantity = sum(quantity_seen, na.rm = TRUE), .groups = "drop") |>
+  arrange(desc(total_quantity))
+
+ggplot(brand_summary, aes(x = forcats::fct_reorder(drink_brand, total_quantity), y = total_quantity)) +
+  geom_col(fill = "#2d6a4f") +
+  geom_text(aes(label = total_quantity), vjust = -0.3, size = 5) +
+  labs(
+    title = "Total Quantity Seen by Brand",
+    x = "Drink Brand",
+    y = "Total Quantity Seen"
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(
+    axis.title.y = element_text(size = 16),
+    axis.title.x = element_text(size = 16),
+    axis.text.y = element_text(size = 14),
+    axis.text.x = element_text(size = 14)
+  )
+```
+
+### Campus Analysis
+
+The following chart displays the total quantity of energy drinks observed across each campus:
+
+```{r campus-chart}
+campus_summary <- latest_data |>
+  group_by(campus) |>
+  summarise(total_quantity = sum(quantity_seen, na.rm = TRUE), .groups = "drop") |>
+  arrange(desc(total_quantity))
+
+ggplot(campus_summary, aes(x = forcats::fct_reorder(campus, total_quantity), y = total_quantity)) +
+  geom_col(fill = "#b2452e") +
+  geom_text(aes(label = total_quantity), vjust = -0.3, size = 5) +
+  labs(
+    title = "Total Quantity Seen by Campus",
+    x = "Campus",
+    y = "Total Quantity Seen"
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(
+    axis.text.y = element_text(size = 14),
+    axis.text.x = element_text(size = 14)
+  )
+```
+
