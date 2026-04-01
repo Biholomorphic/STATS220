@@ -160,7 +160,13 @@ ggplot(summary_stats, aes(x = statistic, y = value, fill = statistic)) +
     x = "Statistic",
     y = "Quantity"
   ) +
-  theme_minimal()
+  theme_minimal(base_size = 16) +
+  theme(
+    axis.title.y = element_text(size = 16),
+    axis.title.x = element_text(size = 16),
+    axis.text.y = element_text(size = 14),
+    axis.text.x = element_text(size = 14)
+  )
 ```
 
 ### Brand Analysis
@@ -185,31 +191,6 @@ ggplot(brand_summary, aes(x = forcats::fct_reorder(drink_brand, total_quantity),
   theme(
     axis.title.y = element_text(size = 16),
     axis.title.x = element_text(size = 16),
-    axis.text.y = element_text(size = 14),
-    axis.text.x = element_text(size = 14)
-  )
-```
-
-### Campus Analysis
-
-The following chart displays the total quantity of energy drinks observed across each campus:
-
-```{r campus-chart}
-campus_summary <- latest_data %>%
-  group_by(campus) %>%
-  summarise(total_quantity = sum(quantity_seen, na.rm = TRUE), .groups = "drop") %>%
-  arrange(desc(total_quantity))
-
-ggplot(campus_summary, aes(x = forcats::fct_reorder(campus, total_quantity), y = total_quantity)) +
-  geom_col(fill = "#b2452e") +
-  geom_text(aes(label = total_quantity), vjust = -0.3, size = 5) +
-  labs(
-    title = "Total Quantity Seen by Campus",
-    x = "Campus",
-    y = "Total Quantity Seen"
-  ) +
-  theme_minimal(base_size = 16) +
-  theme(
     axis.text.y = element_text(size = 14),
     axis.text.x = element_text(size = 14)
   )
