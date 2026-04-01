@@ -2,8 +2,9 @@
 title: "Project 2"
 author: "Marlo Thacker"
 subtitle: "STATS 220 Semester One, 2026"
-output: html_document
-  code_folding: hide
+output: 
+  html_document:
+    code_folding: hide
 date: "2026-04-01"
 ---
 

@@ -35,7 +35,7 @@
   - [x] Follows the 4 form design guidelines
   - [x] At least one **numeric** question (short answer + response validation)
   - [x] At least one **categorical** question (multiple choice)
-  - [ ] Appropriate text, visual, and structural elements
+  - [x] Appropriate text, visual, and structural elements
   - [x] Responses are **anonymous**
 - [x] Change settings so form is **not restricted** to University of Auckland users
 
@@ -65,10 +65,10 @@
 
 - [x] Rename variables using `rename()` → save as `latest_data`
 - [x] Identify at least **2 summary values** (min, max, mean, length, etc.)
-- [ ] Create at least **2 informative bar charts**
+- [x] Create at least **2 informative bar charts**
 - [x] Show exploration of different options (not just final versions)
 - [x] Use comments, indenting, and white space in code
-- [ ] End with a **commented section** containing final chosen code for the report
+- [x] End with a **commented section** containing final chosen code for the report
 
 ---
 
@@ -80,7 +80,7 @@
 - [x] Update the level 2 heading to describe what you're tracking
 - [x] Add markdown text explaining your data and analysis
 - [x] Copy relevant code from `exploration.R`
-- [ ] Include setup chunk:
+- [x] Include setup chunk:
 ````r
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
@@ -89,7 +89,7 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 
 - [ ] Report includes:
   - [x] At least **2 bar charts**
-  - [ ] **Dynamic comments** based on at least 2 summary values (use `paste()`, `paste0()`, or inline R)
+  - [x] **Dynamic comments** based on at least 2 summary values (use `paste()`, `paste0()`, or inline R)
 - [x] Add any desired CSS
 - [x] Knit to HTML to preview
 - [x] Set up **GitHub Pages** for your `stats220` repo:
@@ -120,40 +120,40 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 
 ## Part F: Project Report
 
-- [ ] Create `project2_report.Rmd` in your `Project2` folder
-- [ ] Title: `Project 2` | Author: your name
-- [ ] YAML: subtitle `"STATS 220 Semester One, 2026"`, code folded
+- [x] Create `project2_report.Rmd` in your `Project2` folder
+- [x] Title: `Project 2` | Author: your name
+- [x] YAML: subtitle `"STATS 220 Semester One, 2026"`, code folded
 
 ### Sections
 
 #### Introduction *(200+ words)*
-- [ ] Describe your data collection focus
-- [ ] Discuss one form design guideline and how you applied it
-- [ ] Explain what you can learn from analyzing the data
-- [ ] Include Markdown link to your Google Form
-- [ ] State group/solo work:
+- [x] Describe your data collection focus
+- [x] Discuss one form design guideline and how you applied it
+- [x] Explain what you can learn from analyzing the data
+- [x] Include Markdown link to your Google Form
+- [x] State group/solo work:
   - Group: *"Form design and data collection for this project were completed as a group. My group members were ..."*
   - Solo: *"Form design and data collection for this project were completed by me."*
 
 #### Dynamic Report
-- [ ] Include Markdown link to your GitHub Pages dynamic report
+- [x] Include Markdown link to your GitHub Pages dynamic report
 
 #### Creativity
-- [ ] Describe and justify how your project demonstrates creativity (going beyond requirements in a way that improves the product)
+- [x] Describe and justify how your project demonstrates creativity (going beyond requirements in a way that improves the product)
 
 #### Learning Reflection *(100+ words)*
-- [ ] Describe at least **one important idea** learned from Module 2
-- [ ] Discuss what data technologies you're curious to explore further
-- [ ] Comment on group work:
+- [x] Describe at least **one important idea** learned from Module 2
+- [x] Discuss what data technologies you're curious to explore further
+- [x] Comment on group work:
   - No group: describe one way you have/will develop group work skills (1–2 sentences)
   - Group: describe one thing learned about effective collaboration (1–2 sentences)
 
 #### Appendix
-- [ ] Include exactly:
+- [x] Include exactly:
 ````R
 ```{r file='exploration.R', eval=FALSE, echo=TRUE}
 ```
 ```{r file='dynamic_report.Rmd', eval=FALSE, echo=TRUE}
 ```
 ````
-- [ ] Knit your _project2_report.Rmd_ file to create a self-contained _project2_report.html_ file.
+- [x] Knit your _project2_report.Rmd_ file to create a self-contained _project2_report.html_ file.

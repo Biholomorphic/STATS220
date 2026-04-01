@@ -209,6 +209,83 @@ window.buildTabsets = function(tocID) {
 };
 
 </script>
+<script>
+window.initializeCodeFolding = function(show) {
+
+  // handlers for show-all and hide all
+  $("#rmd-show-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('show');
+    });
+  });
+  $("#rmd-hide-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('hide');
+    });
+  });
+
+  // index for unique code element ids
+  var currentIndex = 1;
+
+  // select all R code blocks
+  var rCodeBlocks = $('pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan, pre.julia, pre.foldable');
+  rCodeBlocks.each(function() {
+    // skip if the block has fold-none class
+    if ($(this).hasClass('fold-none')) return;
+
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse r-code-collapse"></div>');
+    var showThis = (show || $(this).hasClass('fold-show')) && !$(this).hasClass('fold-hide');
+    var id = 'rcode-643E0F36' + currentIndex++;
+    div.attr('id', id);
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+
+    // add a show code button right above
+    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Show') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm code-folding-btn pull-right float-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-bs-toggle', 'collapse') // BS5
+        .attr('data-target', '#' + id)
+        .attr('data-bs-target', '#' + id)   // BS5
+        .attr('aria-expanded', showThis)
+        .attr('aria-controls', id);
+
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+
+    div.before(buttonRow);
+
+    // show the div if necessary
+    if (showThis) div.collapse('show');
+
+    // update state of button on show/hide
+    //   * Change text
+    //   * add a class for intermediate states styling
+    div.on('hide.bs.collapse', function () {
+      showCodeText.text('Show');
+      showCodeButton.addClass('btn-collapsing');
+    });
+    div.on('hidden.bs.collapse', function () {
+      showCodeButton.removeClass('btn-collapsing');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide');
+      showCodeButton.addClass('btn-expanding');
+    });
+    div.on('shown.bs.collapse', function () {
+      showCodeButton.removeClass('btn-expanding');
+    });
+
+  });
+
+}
+</script>
 <style type="text/css">.hljs-literal {
 color: #990073;
 }
@@ -332,6 +409,9 @@ display: none;
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -347,6 +427,14 @@ display: none;
 
 
 <div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
 
@@ -534,7 +622,7 @@ behind our ideas for the form design.</p>
 logged_data &lt;- read.csv(&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vRHaMrOqii2tFpTH9s4SEv7Wv1PNuF7fwck5SOM9F2pXzyNibgYcm4KyM9qoM3O0jDUcoFIKnN7K4gF/pub?output=csv&quot;)
 str(logged_data)
 
-latest_data &lt;- logged_data |&gt;                                        # Renaming the data frame variables in a new data frame.
+latest_data &lt;- logged_data %&gt;%                                        # Renaming the data frame variables in a new data frame.
   rename(
     timestamp = Timestamp,
     campus = UoA.or.AUT.Campus.,
@@ -548,10 +636,6 @@ latest_data &lt;- logged_data |&gt;                                        # Ren
 str(latest_data)
 
 # ---------- Quantity Seen Analysis ----------
-
-# 
-#
-#
 
 max_quantity &lt;- max(latest_data$quantity_seen, na.rm = TRUE)
 min_quantity &lt;- min(latest_data$quantity_seen, na.rm = TRUE)
@@ -588,8 +672,8 @@ ggplot(summary_stats, aes(x = statistic, y = value, fill = statistic)) +
 
 
 
-busiest_per_day &lt;- latest_data |&gt;                                    # Daily peak based on single observations, not summed duplicates
-  group_by(observation_date) |&gt;
+busiest_per_day &lt;- latest_data %&gt;%                                    # Daily peak based on single observations, not summed duplicates
+  group_by(observation_date) %&gt;%
   summarise(total_quantity = max(quantity_seen, na.rm = TRUE), .groups = &quot;drop&quot;)
 
 peak_date &lt;- busiest_per_day$observation_date                        # PEAKS!!! For date and quantity
@@ -619,9 +703,9 @@ ggplot(busiest_per_day, aes(x = observation_date, y = total_quantity)) +
 
 # ---------- Brand Analysis ----------
 
-brand_summary &lt;- latest_data |&gt;
-  group_by(drink_brand) |&gt;
-  summarise(total_quantity = sum(quantity_seen, na.rm = TRUE), .groups = &quot;drop&quot;) |&gt;
+brand_summary &lt;- latest_data %&gt;%
+  group_by(drink_brand) %&gt;%
+  summarise(total_quantity = sum(quantity_seen, na.rm = TRUE), .groups = &quot;drop&quot;) %&gt;%
   arrange(desc(total_quantity))
 
 # This is to create a graph for the totals
@@ -650,9 +734,9 @@ ggplot(brand_summary, aes(x = forcats::fct_reorder(drink_brand, total_quantity),
 
 # ---------- Campus Based Analysis ----------
 
-campus_summary &lt;- latest_data |&gt;
-  group_by(campus) |&gt;
-  summarise(total_quantity = sum(quantity_seen, na.rm = TRUE), .groups = &quot;drop&quot;) |&gt;
+campus_summary &lt;- latest_data %&gt;%
+  group_by(campus) %&gt;%
+  summarise(total_quantity = sum(quantity_seen, na.rm = TRUE), .groups = &quot;drop&quot;) %&gt;%
   arrange(desc(total_quantity))
 
 ggplot(campus_summary, aes(x = forcats::fct_reorder(campus, total_quantity), y = total_quantity)) +
@@ -671,7 +755,90 @@ ggplot(campus_summary, aes(x = forcats::fct_reorder(campus, total_quantity), y =
     axis.title.x = element_text(size = 16),
     axis.text.y = element_text(size = 14),
     axis.text.x = element_text(size = 14)
-  )</code></pre>
+  )
+
+
+
+
+
+
+
+# -------------------------------------------------------------------
+#                 Final Code for the Dynamic Report
+# -------------------------------------------------------------------
+#
+# I chose these graphs as one of them shows the statistical summaries,
+# and the other shows the totals by brand, I felt these were the most
+# insightful as it can be compared to overall global or national tallies
+# for each brand (Which to my understanding with no backing because of
+# paywalls, is V in NZ - we found monster to be most popular contrarily)
+# additionally, data showing the statistical quantities number of drinks 
+# of a given brand  is useful.
+
+
+# library(&quot;tidyverse&quot;)
+
+# logged_data &lt;- read.csv(&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vRHaMrOqii2tFpTH9s4SEv7Wv1PNuF7fwck5SOM9F2pXzyNibgYcm4KyM9qoM3O0jDUcoFIKnN7K4gF/pub?output=csv&quot;)
+
+# latest_data &lt;- logged_data %&gt;%
+#   rename(
+#     timestamp = Timestamp,
+#     campus = UoA.or.AUT.Campus.,
+#     building_number = What.was.the.building.number.of.the.observation...Enter.answer.without.B..i.e...for.building.110N..don.t.use.B110N..use.110N..Link.to.map.for.convenience.,
+#     building_name = What.was.the.building.name.of.the.observation...Use.capitals..Link.to.map.for.convenience.,
+#     observation_date = What.was.the.date.of.the.observation.,
+#     observation_time = What.was.the.time.of.the.observation.,
+#     drink_brand = What.was.the.brand.of.the.drink.,
+#     quantity_seen = Quantity.of.same.brand.seen.in.the.location...e.g...2.at.one.table.
+#   )
+
+# max_quantity &lt;- max(latest_data$quantity_seen, na.rm = TRUE)
+# min_quantity &lt;- min(latest_data$quantity_seen, na.rm = TRUE)
+# mean_quantity &lt;- mean(latest_data$quantity_seen, na.rm = TRUE)
+# median_quantity &lt;- median(latest_data$quantity_seen, na.rm = TRUE)
+
+# summary_stats &lt;- tibble(
+#   statistic = factor(c(&quot;Min&quot;, &quot;Mean&quot;, &quot;Median&quot;, &quot;Max&quot;), levels = c(&quot;Min&quot;, &quot;Mean&quot;, &quot;Median&quot;, &quot;Max&quot;)),
+#   value = c(min_quantity, mean_quantity, median_quantity, max_quantity)
+# )
+
+# ggplot(summary_stats, aes(x = statistic, y = value, fill = statistic)) +
+#   geom_col(width = 0.65, show.legend = FALSE) +
+#   geom_text(aes(label = round(value, 2)), vjust = -0.5, size = 4) +
+#   scale_fill_manual(values = c(&quot;Min&quot; = &quot;#84a98c&quot;, &quot;Mean&quot; = &quot;#52796f&quot;, &quot;Median&quot; = &quot;#354f52&quot;, &quot;Max&quot; = &quot;#b2452e&quot;)) +
+#   labs(
+#     title = &quot;Summary Statistics of Recorded Quantities&quot;,
+#     x = &quot;Statistic&quot;,
+#     y = &quot;Quantity&quot;
+#   ) +
+#   theme_minimal(base_size = 16) +
+#   theme(
+#     axis.title.y = element_text(size = 16),
+#     axis.title.x = element_text(size = 16),
+#     axis.text.y = element_text(size = 14),
+#     axis.text.x = element_text(size = 14)
+#   )
+
+# brand_summary &lt;- latest_data %&gt;%
+#   group_by(drink_brand) %&gt;%
+#   summarise(total_quantity = sum(quantity_seen, na.rm = TRUE), .groups = &quot;drop&quot;) %&gt;%
+#   arrange(desc(total_quantity))
+
+# ggplot(brand_summary, aes(x = forcats::fct_reorder(drink_brand, total_quantity), y = total_quantity)) +
+#   geom_col(fill = &quot;#2d6a4f&quot;) +
+#   geom_text(aes(label = total_quantity), vjust = -0.3, size = 5) +
+#   labs(
+#     title = &quot;Total Quantity Seen by Brand&quot;,
+#     x = &quot;Drink Brand&quot;,
+#     y = &quot;Total Quantity Seen&quot;
+#   ) +
+#   theme_minimal(base_size = 16) +
+#   theme(
+#     axis.title.y = element_text(size = 16),
+#     axis.title.x = element_text(size = 16),
+#     axis.text.y = element_text(size = 14),
+#     axis.text.x = element_text(size = 14)
+#   )</code></pre>
 <pre class="r"><code>---
 title: My dynamic report
 output: html_fragment
@@ -797,7 +964,7 @@ library(&quot;tidyverse&quot;)
 
 logged_data &lt;- read.csv(&quot;https://docs.google.com/spreadsheets/d/e/2PACX-1vRHaMrOqii2tFpTH9s4SEv7Wv1PNuF7fwck5SOM9F2pXzyNibgYcm4KyM9qoM3O0jDUcoFIKnN7K4gF/pub?output=csv&quot;)
 
-latest_data &lt;- logged_data |&gt;
+latest_data &lt;- logged_data %&gt;%
   rename(
     timestamp = Timestamp,
     campus = UoA.or.AUT.Campus.,
@@ -834,7 +1001,13 @@ ggplot(summary_stats, aes(x = statistic, y = value, fill = statistic)) +
     x = &quot;Statistic&quot;,
     y = &quot;Quantity&quot;
   ) +
-  theme_minimal()
+  theme_minimal(base_size = 16) +
+  theme(
+    axis.title.y = element_text(size = 16),
+    axis.title.x = element_text(size = 16),
+    axis.text.y = element_text(size = 14),
+    axis.text.x = element_text(size = 14)
+  )
 ```
 
 ### Brand Analysis
@@ -842,9 +1015,9 @@ ggplot(summary_stats, aes(x = statistic, y = value, fill = statistic)) +
 The following chart shows the total quantity of each brand observed across all location snapshots:
 
 ```{r brand-chart}
-brand_summary &lt;- latest_data |&gt;
-  group_by(drink_brand) |&gt;
-  summarise(total_quantity = sum(quantity_seen, na.rm = TRUE), .groups = &quot;drop&quot;) |&gt;
+brand_summary &lt;- latest_data %&gt;%
+  group_by(drink_brand) %&gt;%
+  summarise(total_quantity = sum(quantity_seen, na.rm = TRUE), .groups = &quot;drop&quot;) %&gt;%
   arrange(desc(total_quantity))
 
 ggplot(brand_summary, aes(x = forcats::fct_reorder(drink_brand, total_quantity), y = total_quantity)) +
@@ -859,31 +1032,6 @@ ggplot(brand_summary, aes(x = forcats::fct_reorder(drink_brand, total_quantity),
   theme(
     axis.title.y = element_text(size = 16),
     axis.title.x = element_text(size = 16),
-    axis.text.y = element_text(size = 14),
-    axis.text.x = element_text(size = 14)
-  )
-```
-
-### Campus Analysis
-
-The following chart displays the total quantity of energy drinks observed across each campus:
-
-```{r campus-chart}
-campus_summary &lt;- latest_data |&gt;
-  group_by(campus) |&gt;
-  summarise(total_quantity = sum(quantity_seen, na.rm = TRUE), .groups = &quot;drop&quot;) |&gt;
-  arrange(desc(total_quantity))
-
-ggplot(campus_summary, aes(x = forcats::fct_reorder(campus, total_quantity), y = total_quantity)) +
-  geom_col(fill = &quot;#b2452e&quot;) +
-  geom_text(aes(label = total_quantity), vjust = -0.3, size = 5) +
-  labs(
-    title = &quot;Total Quantity Seen by Campus&quot;,
-    x = &quot;Campus&quot;,
-    y = &quot;Total Quantity Seen&quot;
-  ) +
-  theme_minimal(base_size = 16) +
-  theme(
     axis.text.y = element_text(size = 14),
     axis.text.x = element_text(size = 14)
   )
@@ -923,6 +1071,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
