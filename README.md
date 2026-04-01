@@ -2,12 +2,18 @@
 
 This is my public repo for STATS 220. I will be using this to track my own work as I also use github for all my assignments across all classes, and also to fulfil project requirements and deliverables. I will try to make sure my in progress work and my project deliverables do not get confused together.
 
+### Github Pages for Dynamic Report
+
+[Dynamic Report](https://biholomorphic.github.io/STATS220/)
+
 ## A little about me:
+
 1. I am undertaking a degree in *Electrical Engineering/Mathematics & Statistics*.
     * Favorite so far is Mathematics.
 2. I am taking STATS 220 because it is convenient this semester for my degree, and because it offers some interesting topics.
 
 ## Favorite courses so far from each
+
 * **Maths 260**
     * Enjoyed James Sneyds teaching style and content was easy and fun, although I bombed the exam with only 2 hours of revision.
 * **STATS 210**
