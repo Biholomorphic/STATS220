@@ -126,20 +126,20 @@ logged_data <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRHaMrO
 
 latest_data <- logged_data %>%
   rename(
-    timestamp = Timestamp,
-    campus = UoA.or.AUT.Campus.,
-    building_number = What.was.the.building.number.of.the.observation...Enter.answer.without.B..i.e...for.building.110N..don.t.use.B110N..use.110N..Link.to.map.for.convenience.,
-    building_name = What.was.the.building.name.of.the.observation...Use.capitals..Link.to.map.for.convenience.,
-    observation_date = What.was.the.date.of.the.observation.,
-    observation_time = What.was.the.time.of.the.observation.,
-    drink_brand = What.was.the.brand.of.the.drink.,
-    quantity_seen = Quantity.of.same.brand.seen.in.the.location...e.g...2.at.one.table.
+    timestamp        = 1,
+    campus           = 2,
+    building_number  = 3,
+    building_name    = 4,
+    obs_time         = 5,
+    obs_date         = 6,
+    quantity         = 7,
+    brand            = 8
   )
 
-max_quantity <- max(latest_data$quantity_seen, na.rm = TRUE)
-min_quantity <- min(latest_data$quantity_seen, na.rm = TRUE)
-mean_quantity <- mean(latest_data$quantity_seen, na.rm = TRUE)
-median_quantity <- median(latest_data$quantity_seen, na.rm = TRUE)
+max_quantity <- max(latest_data$quantity, na.rm = TRUE)
+min_quantity <- min(latest_data$quantity, na.rm = TRUE)
+mean_quantity <- mean(latest_data$quantity, na.rm = TRUE)
+median_quantity <- median(latest_data$quantity, na.rm = TRUE)
 
 summary_stats <- tibble(
   statistic = factor(c("Min", "Mean", "Median", "Max"), levels = c("Min", "Mean", "Median", "Max")),
@@ -176,11 +176,11 @@ The following chart shows the total quantity of each brand observed across all l
 
 ```{r brand-chart}
 brand_summary <- latest_data %>%
-  group_by(drink_brand) %>%
-  summarise(total_quantity = sum(quantity_seen, na.rm = TRUE), .groups = "drop") %>%
+  group_by(brand) %>%
+  summarise(total_quantity = sum(quantity, na.rm = TRUE), .groups = "drop") %>%
   arrange(desc(total_quantity))
 
-ggplot(brand_summary, aes(x = forcats::fct_reorder(drink_brand, total_quantity), y = total_quantity)) +
+ggplot(brand_summary, aes(x = forcats::fct_reorder(brand, total_quantity), y = total_quantity)) +
   geom_col(fill = "#2d6a4f") +
   geom_text(aes(label = total_quantity), vjust = -0.3, size = 5) +
   labs(
