@@ -6,6 +6,10 @@ This is my public repo for STATS 220. I will be using this to track my own work 
 
 [Dynamic Report](https://biholomorphic.github.io/STATS220/)
 
+### Github Page for Visual data story
+
+[Visual Data Story](https://biholomorphic.github.io/STATS220/visual_data_story.html)
+
 ## A little about me:
 
 1. I am undertaking a degree in *Electrical Engineering/Mathematics & Statistics*.
