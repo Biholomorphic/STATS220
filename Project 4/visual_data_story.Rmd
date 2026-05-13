@@ -1,0 +1,132 @@
+---
+title: "Energy Drinks Across Auckland's Campuses - A Visual Data Story"
+output: html_document
+---
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+```
+
+```{js}
+$(function() {
+  $(".level2").css('visibility', 'hidden');
+  $(".level2").first().css('visibility', 'visible');
+  $(".container-fluid").height($(".container-fluid").height() + 300);
+  $(window).on('scroll', function() {
+    $('h2').each(function() {
+      var h2Top = $(this).offset().top - $(window).scrollTop();
+      var windowHeight = $(window).height();
+      if (h2Top >= 0 && h2Top <= windowHeight / 2) {
+        $(this).parent('div').css('visibility', 'visible');
+      } else if (h2Top > windowHeight / 2) {
+        $(this).parent('div').css('visibility', 'hidden');
+      }
+    });
+  });
+})
+```
+
+```{css}
+.figcaption {display: none}
+```
+
+```{css, echo=FALSE}
+/* ── Colour theme: Color Brewer Dark2 ── */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f7f7f7;
+  color: #2d2d2d;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+h1.title {
+  color: #1B9E77;
+  font-size: 2rem;
+  font-weight: 700;
+  border-bottom: 3px solid #1B9E77;
+  padding-bottom: 0.4rem;
+}
+
+h2 {
+  color: #D95F02;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  border-left: 5px solid #D95F02;
+  padding-left: 0.6rem;
+}
+
+p {
+  line-height: 1.75;
+  font-size: 1.4rem;
+}
+
+img {
+  border-radius: 8px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+  max-width: 100%;
+  margin: 1rem 0;
+}
+
+.caption-note {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+  margin-top: -0.6rem;
+  margin-bottom: 1.2rem;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 2rem 0;
+}
+```
+
+## What did we set out to find?
+
+Walking around almost any university in the world and you're likely to observe (possibly several) instances of students with energy drinks consuming energy drinks. To see if there were any obvious meaningful differences in energy drink culture such as amount consumed or perhaps differing brand preferences between the two universities we spent a few weeks performing some observational logging to find out if we could answer some questions.
+
+This is the data we gathered.
+
+---
+
+## Which brands ruled the campuses?
+
+The first question was obvious to us: what are people actually drinking?
+
+![A stacked horizontal bar chart showing total energy drinks observed by brand, split by campus](plot1.png)
+
+Across both campuses, Monster clocked the lead. It was close, with V trailing close behind and then Red Bull slightly behind that with the least common being Rockstar, Musashi, Live Plus and Celsius. While I'm fairly certain that the three leaders are by far the most popular, I wouldn't make conclusions about the rankings on the other four as I'm not convince the data has enough reliability and fidelity for that.
+
+## Are some brands more of a "group" drink?
+
+We also recorded how many of the same brand we saw at once - whether someone was drinking alone or whether a group all had the same can. This gave us a proxy for social drinking patterns.
+
+![A lollipop chart showing the proportion of observations where more than one drink of the same brand was seen at once.](plot2.png)
+
+Smaller brands like Rockstar appeared in groups more often proportionally - though this likely reflects fewer total sightings rather than a genuine social effect. For the major brands, Monster and V were spotted in groups roughly 30–40% of the time, suggesting they're not just a solitary study-fuel habit.
+
+## When were people drinking them?
+
+Since we recorded the actual time and date of each observation (not just when we filled in the form), we can look at the real distribution of when energy drinks were observed throughout the day.
+
+![A stacked histogram showing the hour of day when energy drinks were observed, coloured by campus.](plot3.png)
+
+The lunchtime window (11:00–14:00) was by far the busiest period - which makes sense, as this is likely peak foot traffic time on both campuses. There's a secondary afternoon bump around 16:00–17:00, possibly coinciding with the end of afternoon lectures. Early morning and evening sightings were rare - though this may be due to students actively avoiding scheduling classes during those time if it can be helped (ourselves included). Both campuses appear to be likely to follow the same pattern, although the AUT data has less resolution but it seems reasonable to assume a normal distribution of some kind with a mean coinciding with lunch time.
+
+## How many cans at a time?
+
+Finally, we looked at whether quantity per sighting varied meaningfully by brand, focusing on the top three most-observed brands.
+
+![A boxplot with jittered individual points showing the distribution of quantity per observation for V, Monster, and Red Bull.](plot4.png)
+
+Unfortunately this is not particularly insightful. Most observations irrelevant of brand, were single cans, with medians around 1-2 across all three. V had a slightly wider spread, but none of them stand out as drink people but more in bulk. The jittered points more or less demonstrate the same conclusion.
+
+## What does this all mean?
+
+The observered data shows Monster as the primary drink of choice among both campuses. A caveat to this may be that the other two brands sell both ~500ml versions as well as the smaller 250ml versions. While Monster primarily sells their 500ml product, it's possible this lead us to disproportionately notice more Monsters due to their larger cans. The most useful and interesting data was almost certainly the observations versus time graph which suggested a clear distribution. The distribution of the time plot suggests that energy drinks are more of a mid-day habit rather than early morning - though this isn't controlled for our own presence on campus during the early hours.

@@ -1,0 +1,39 @@
+---
+title: "Project 4"
+author: "Marlo Thacker"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, message=FALSE, warning=FALSE, error=FALSE)
+```
+
+## Introduction
+
+For this report I continued the data gathering on the same topic as project two, and collected data with another student, Johnathan Sewell (jsew317). The data was collected on energy drink observations across the AUT, and UoA campuses. No new questions were added to the form however one questions was slightly modified for mote determinate answers. The question that was changed was the one about the brand of energy drink, for project 2, and 'Other' option was allowed - I decided to change this to accommodate the most common brands of energy drinks. This was determined in not exactly the most scientific way, as direct access the brand sales were not available, or too difficult to find for whatever reason, so I took the energy drinks listed on Woolworth's website. I'm sure some data is lost with this approach however I'm reasonably confident that this will not have a statistically significant effect on the results. The other minor change was simply to specify that time was recorded in 24 hour format, this was done to avoid any confusion with the 12 hour format.
+
+The dataset had two natural axes of interest, what was being consumed and where/when it was. I focused on brand and campus as the primary variables to group. The reason I chose those two is that they are likely the best variables for showing/telling a story about energy drink consumption across the campuses.
+
+Plot 1 is a stacked horizontal bar graph. The goal of this graph is to demonstrate the distribution of brands vs total observed, with additional information provided by the colour of the graph which encodes the campus of observation.
+
+Plot 2 is a lollipop graph which shows the proportion that drinks were spotted in larger groups vs alone. While this seems to suggest some sort of relationship, I'm not convinced that it really is as strong as it may seem. The reason for this is that there is no way of knowing how many people were in the groups that were observed without having logged that, and while we could have added that I'm not so sure that something like that is particularly appropriate to log (I didn't want to be seen counting people in groups, would be awkward to explain). In short I don't think there is enough data to draw a meaningful conclusion from this graph, but it is interesting to see the difference in proportions between the two categories.
+
+Plot 3 is a histogram which I think tells the most interesting information. It plots observations against time of day, and the colour encodes the campus. I think this is the most telling as it seems to suggest a normal distribution with the mean around 12pm, which would fit with my expected outcome if asked to hypothesise on the matter. However, since this is observational data, it could be that we happened to be on campus more often around that time, and thus observed more energy drink consumption at that time.
+
+Plot 4 is a box plot and jitter plot, with the jitters showing the individual observations. This plots quantity per observation against the brand of drink. Unfortunately this plot was not particularly insightful
+
+Two approaches that did not work: a time series of total drinks per day looked noisy and uninterpretable due to uneven gaps between observation dates, and a faceted plot by building was too sparse since most buildings had only one or two observations. Note also that because data was recorded on paper and entered into the form later, we used the user inputted observation time and date rather than the Google Form submission timestamp for all time based analysis.
+
+---
+
+## Visual data story
+
+[Link tot the visual data story]()
+
+The visual data story 
+
+
+## Learning Reflection
+
+I think that this project involved some interesting stuff regarding how to actually create some meaningful sense out of data, which was harder to think about than I expected. Although, upon reflection, I probably should have viewed my reflection from project 2 about what we could have changed for the google form (reflection-ception). I think two useful variables that could have helped make the data more interesting would have been a simple boolean value for something like 'group' that way we could avoid counting people and instead just answered for a yes or no, which would have helped create some confidence for the 'group drink' question in the viual story. More responsible/proactive data collection would help reduce uncertainty in the time plot for whether there is a genuine pattern of consumption or if it just happened to model our observation logging times instead of consumption times - though I think there is a genuine relationship in there as I tend to spend most of my day on campus.
